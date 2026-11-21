@@ -1,0 +1,33 @@
+{
+  "measuredAt": "2026-11-21T07:40:00Z",
+  "issue": "rpcpool/yellowstone-grpc#928 (open since 2026-10-27, 0 comments before this run)",
+  "masterChecked": "b9a4f56 (2026-11-18)",
+  "claimResults": {
+    "tlsConfigBuiltNeverUsed": true,
+    "listenPathWrapsTls": true,
+    "alpnH2AndCertDirPrecedence": true,
+    "tcpCaseSilentlyPlaintext": true
+  },
+  "history": {
+    "introducedBy": "7473409 'str-565: custom TLS supports (#773)' 2026-06-19 — construction and plaintext push landed in the same commit; the dead path is original, not a regression",
+    "firstTagContaining": "geyser-v13.3.0",
+    "lastTagWithout": "geyser-v13.2.5"
+  },
+  "correctionToIssue": "v13.2.5 did serve TLS, but via serve()-time ServerTlsConfig on TCP listeners, not via listener construction; plaintext behavior starts with 13.3.0 — the reporter's 'worked on 13.2.5' holds in effect, not in mechanism",
+  "existingFix": {
+    "pr": 932,
+    "opened": "2026-10-31",
+    "reviews": 0,
+    "approach": "make_legacy_tcp_listener attaches ServerConfig via TlsAcceptor; cert_dir precedence kept; unwrap() replaced by ?; 2 listener-selection regression tests",
+    "gap": "no full-handshake test; openssl s_client smoke check on a legacy config would close it"
+  },
+  "delivery": {
+    "commentUrl": "https://github.com/rpcpool/yellowstone-grpc/issues/928#issuecomment-7059360753",
+    "author": "auroraxo",
+    "createdAt": "2026-11-21T07:35:47Z",
+    "chars": 2361,
+    "roundTripVerified": true
+  },
+  "verifier": "tools/verify-legacy-tls-dead-path.sh — 4/4 checks, exit 0",
+  "verdict": "issue-928-dead-path-present-and-confirmed-publicly"
+}
